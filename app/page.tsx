@@ -268,7 +268,9 @@ export default function ComingSoonPage() {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://uk.pinterest.com/houseofclarence/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-300"
               aria-label="Pinterest"
             >
