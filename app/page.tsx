@@ -107,7 +107,7 @@ export default function ComingSoonPage() {
           </motion.p>
 
           {/* Email signup form */}
-          <div className="w-full max-w-[440px] mx-auto mt-8 sm:mt-10">
+          <div className="w-full max-w-[480px] mx-auto mt-8 sm:mt-10">
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <form
@@ -115,57 +115,75 @@ export default function ComingSoonPage() {
                   onSubmit={handleSubmit}
                   className="relative"
                 >
-                  <motion.div 
-                    className="relative flex flex-row"
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ 
-                      y: { duration: 0.6, delay: 2.0, ease: [0.25, 0.1, 0.25, 1] },
-                      opacity: { duration: 0.01, delay: 2.0 }
-                    }}
-                  >
-                    {/* Unified background for both */}
-                    <div 
-                      className="absolute inset-0 bg-white/10 border border-white/30"
-                      style={{ 
-                        backdropFilter: 'blur(4px)',
-                        WebkitBackdropFilter: 'blur(4px)'
-                      }} 
-                    />
+                  <div className="flex flex-row gap-2 sm:gap-3">
                     {/* Email Input */}
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                      className="relative flex-1 px-4 sm:px-5 py-3.5 sm:py-4 bg-transparent text-white placeholder:text-white/50 
-                                 text-[12px] sm:text-[13px] tracking-[0.1em] focus:outline-none
-                                 transition-all duration-300"
-                    />
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="relative flex-shrink-0 px-5 sm:px-7 py-3.5 sm:py-4 text-white text-[11px] sm:text-[12px] tracking-[0.15em] uppercase 
-                                 bg-transparent border-l border-white/50 hover:bg-white/10 active:bg-white/20
-                                 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                                 overflow-hidden whitespace-nowrap font-medium"
+                    <motion.div 
+                      className="relative flex-1"
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ 
+                        y: { duration: 0.6, delay: 2.0, ease: [0.25, 0.1, 0.25, 1] },
+                        opacity: { duration: 0.01, delay: 2.0 }
+                      }}
                     >
-                      <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
-                        NOTIFY ME
-                      </span>
-                      {isLoading && (
-                        <span className="absolute inset-0 flex items-center justify-center">
-                          <motion.div
-                            className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          />
+                      <div 
+                        className="absolute inset-0 bg-white/10 border border-white/30"
+                        style={{ 
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)'
+                        }} 
+                      />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Enter your email"
+                        required
+                        className="relative w-full px-4 sm:px-5 py-3.5 sm:py-4 bg-transparent text-white placeholder:text-white/50 
+                                   text-[12px] sm:text-[13px] tracking-[0.1em] focus:outline-none
+                                   transition-all duration-300"
+                      />
+                    </motion.div>
+                    {/* Submit Button */}
+                    <motion.div 
+                      className="relative flex-shrink-0"
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ 
+                        y: { duration: 0.6, delay: 2.1, ease: [0.25, 0.1, 0.25, 1] },
+                        opacity: { duration: 0.01, delay: 2.1 }
+                      }}
+                    >
+                      <div 
+                        className="absolute inset-0 bg-white/10 border border-white"
+                        style={{ 
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)'
+                        }} 
+                      />
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="relative px-6 sm:px-8 py-3.5 sm:py-4 text-white text-[11px] sm:text-[12px] tracking-[0.15em] uppercase 
+                                   bg-transparent hover:bg-white/10 active:bg-white/20
+                                   transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                   overflow-hidden whitespace-nowrap font-medium"
+                      >
+                        <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
+                          NOTIFY ME
                         </span>
-                      )}
-                    </button>
-                  </motion.div>
+                        {isLoading && (
+                          <span className="absolute inset-0 flex items-center justify-center">
+                            <motion.div
+                              className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            />
+                          </span>
+                        )}
+                      </button>
+                    </motion.div>
+                  </div>
                   
                   <motion.p 
                     className="text-white/50 text-[10px] sm:text-[11px] tracking-[0.05em] mt-4 sm:mt-5"
