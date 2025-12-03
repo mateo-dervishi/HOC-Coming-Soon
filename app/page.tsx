@@ -120,25 +120,31 @@ export default function ComingSoonPage() {
           </motion.p>
 
           {/* Email signup form - styled like the main site buttons */}
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="max-w-md mx-auto"
-          >
+          <div className="max-w-md mx-auto">
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
-                <motion.form
+                <form
                   key="form"
                   onSubmit={handleSubmit}
                   className="relative"
-                  exit={{ opacity: 0, y: -20 }}
                 >
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <div className="relative flex-1">
-                      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/30" />
+                    <motion.div 
+                      className="relative flex-1"
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ 
+                        y: { duration: 0.6, delay: 2.2, ease: [0.25, 0.1, 0.25, 1] },
+                        opacity: { duration: 0.01, delay: 2.2 }
+                      }}
+                    >
+                      <div 
+                        className="absolute inset-0 bg-white/10 border border-white/30"
+                        style={{ 
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)'
+                        }} 
+                      />
                       <input
                         type="email"
                         value={email}
@@ -149,9 +155,23 @@ export default function ComingSoonPage() {
                                    text-sm tracking-wider focus:outline-none
                                    transition-all duration-300"
                       />
-                    </div>
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white" />
+                    </motion.div>
+                    <motion.div 
+                      className="relative"
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ 
+                        y: { duration: 0.6, delay: 2.3, ease: [0.25, 0.1, 0.25, 1] },
+                        opacity: { duration: 0.01, delay: 2.3 }
+                      }}
+                    >
+                      <div 
+                        className="absolute inset-0 bg-white/10 border border-white"
+                        style={{ 
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)'
+                        }} 
+                      />
                       <button
                         type="submit"
                         disabled={isLoading}
@@ -173,12 +193,17 @@ export default function ComingSoonPage() {
                           </span>
                         )}
                       </button>
-                    </div>
+                    </motion.div>
                   </div>
-                  <p className="text-white/50 text-[11px] tracking-wider mt-4">
+                  <motion.p 
+                    className="text-white/50 text-[11px] tracking-wider mt-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 2.5 }}
+                  >
                     We respect your privacy. Unsubscribe at any time.
-                  </p>
-                </motion.form>
+                  </motion.p>
+                </form>
               ) : (
                 <motion.div
                   key="success"
@@ -212,7 +237,7 @@ export default function ComingSoonPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Scroll indicator - matching main site */}
