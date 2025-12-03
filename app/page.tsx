@@ -76,7 +76,7 @@ export default function ComingSoonPage() {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] font-light tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] leading-none"
+            className="text-[1.75rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] font-light tracking-[0.25em] sm:tracking-[0.3em] md:tracking-[0.35em] leading-none"
           >
             COMING SOON
           </motion.h2>
@@ -107,7 +107,7 @@ export default function ComingSoonPage() {
           </motion.p>
 
           {/* Email signup form */}
-          <div className="w-full max-w-[420px] mx-auto mt-8 sm:mt-10">
+          <div className="w-full max-w-[440px] mx-auto mt-8 sm:mt-10">
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <form
@@ -116,7 +116,7 @@ export default function ComingSoonPage() {
                   className="relative"
                 >
                   <motion.div 
-                    className="flex flex-row"
+                    className="relative flex flex-row"
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ 
@@ -124,57 +124,47 @@ export default function ComingSoonPage() {
                       opacity: { duration: 0.01, delay: 2.0 }
                     }}
                   >
+                    {/* Unified background for both */}
+                    <div 
+                      className="absolute inset-0 bg-white/10 border border-white/30"
+                      style={{ 
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)'
+                      }} 
+                    />
                     {/* Email Input */}
-                    <div className="relative flex-1">
-                      <div 
-                        className="absolute inset-0 bg-white/10 border border-white/30 border-r-0"
-                        style={{ 
-                          backdropFilter: 'blur(4px)',
-                          WebkitBackdropFilter: 'blur(4px)'
-                        }} 
-                      />
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email"
-                        required
-                        className="relative w-full px-4 sm:px-5 py-3.5 sm:py-4 bg-transparent text-white placeholder:text-white/50 
-                                   text-[12px] sm:text-[13px] tracking-[0.1em] focus:outline-none
-                                   transition-all duration-300"
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      required
+                      className="relative flex-1 px-4 sm:px-5 py-3.5 sm:py-4 bg-transparent text-white placeholder:text-white/50 
+                                 text-[12px] sm:text-[13px] tracking-[0.1em] focus:outline-none
+                                 transition-all duration-300"
+                    />
                     {/* Submit Button */}
-                    <div className="relative flex-shrink-0">
-                      <div 
-                        className="absolute inset-0 bg-white/10 border border-white"
-                        style={{ 
-                          backdropFilter: 'blur(4px)',
-                          WebkitBackdropFilter: 'blur(4px)'
-                        }} 
-                      />
-                      <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="relative px-5 sm:px-7 py-3.5 sm:py-4 text-white text-[11px] sm:text-[12px] tracking-[0.15em] uppercase 
-                                   bg-transparent hover:bg-white/10 active:bg-white/20
-                                   transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                                   overflow-hidden whitespace-nowrap font-medium"
-                      >
-                        <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
-                          NOTIFY ME
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="relative flex-shrink-0 px-5 sm:px-7 py-3.5 sm:py-4 text-white text-[11px] sm:text-[12px] tracking-[0.15em] uppercase 
+                                 bg-transparent border-l border-white/50 hover:bg-white/10 active:bg-white/20
+                                 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                 overflow-hidden whitespace-nowrap font-medium"
+                    >
+                      <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
+                        NOTIFY ME
+                      </span>
+                      {isLoading && (
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <motion.div
+                            className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          />
                         </span>
-                        {isLoading && (
-                          <span className="absolute inset-0 flex items-center justify-center">
-                            <motion.div
-                              className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            />
-                          </span>
-                        )}
-                      </button>
-                    </div>
+                      )}
+                    </button>
                   </motion.div>
                   
                   <motion.p 
