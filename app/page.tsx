@@ -244,10 +244,10 @@ export default function ComingSoonPage() {
             </a>
             <span className="text-white/30">|</span>
             <a
-              href="tel:+442033704057"
+              href="tel:+442037155892"
               className="hover:text-white transition-colors duration-300"
             >
-              020 3370 4057
+              0203 715 5892
             </a>
           </motion.div>
 
