@@ -7,7 +7,10 @@
     @apply border-light-grey;
   }
   body {
-    @apply bg-primary-black text-white antialiased;
+    @apply bg-off-white text-primary-black antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-widest uppercase;
   }
 }
 
@@ -18,15 +21,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1A1A1A;
+  background: #F8F7F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3D3D3D;
+  background: #8A8A8A;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4D4D4D;
+  background: #2D2D2D;
 }
-

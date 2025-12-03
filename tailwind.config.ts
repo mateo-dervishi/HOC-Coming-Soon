@@ -19,7 +19,11 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-display)', 'Futura', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+      },
+      letterSpacing: {
+        widest: '0.3em',
+        wider: '0.2em',
       },
     },
   },
@@ -27,4 +31,3 @@ const config: Config = {
 };
 
 export default config;
-

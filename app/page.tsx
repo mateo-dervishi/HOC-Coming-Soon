@@ -1,404 +1,256 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
-// Particle component for the background effect
-function Particle({ delay }: { delay: number }) {
-  const randomX = Math.random() * 100;
-  const randomDuration = 15 + Math.random() * 20;
-  const randomSize = 1 + Math.random() * 2;
-
-  return (
-    <motion.div
-      className="absolute rounded-full bg-accent-gold/20"
-      style={{
-        width: randomSize,
-        height: randomSize,
-        left: `${randomX}%`,
-        bottom: -10,
-      }}
-      initial={{ y: 0, opacity: 0 }}
-      animate={{
-        y: -1200,
-        opacity: [0, 0.8, 0.8, 0],
-      }}
-      transition={{
-        duration: randomDuration,
-        delay,
-        repeat: Infinity,
-        ease: "linear",
-      }}
-    />
-  );
-}
-
-// Animated line divider
-function AnimatedDivider() {
-  return (
-    <div className="relative h-px w-32 mx-auto my-8 overflow-hidden">
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-gold to-transparent"
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
-      <div className="absolute inset-0 bg-light-grey/30" />
-    </div>
-  );
-}
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 
 export default function ComingSoonPage() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTime, setCurrentTime] = useState<Date | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Clock effect
-  useEffect(() => {
-    setCurrentTime(new Date());
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
 
-  // Mouse tracking for subtle parallax
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        setMousePosition({ x, y });
-      }
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // Parallax effect for the background
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.05, 1]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     // Simulate API call - replace with actual email collection
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
     setIsSubmitted(true);
     setIsLoading(false);
   };
 
-  // Generate particles
-  const particles = Array.from({ length: 30 }, (_, i) => (
-    <Particle key={i} delay={i * 0.5} />
-  ));
-
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen relative overflow-hidden bg-primary-black flex flex-col items-center justify-center"
-    >
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: `
-              radial-gradient(ellipse 80% 50% at 50% 50%, rgba(201, 169, 98, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 60% 40% at 20% 80%, rgba(201, 169, 98, 0.05) 0%, transparent 50%),
-              radial-gradient(ellipse 60% 40% at 80% 20%, rgba(201, 169, 98, 0.05) 0%, transparent 50%)
-            `,
-          }}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Floating particles */}
-        {particles}
-
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "100px 100px",
-          }}
-        />
-      </div>
-
-      {/* Subtle vignette effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
-
-      {/* Content */}
+    <div ref={containerRef} className="min-h-screen relative overflow-hidden">
+      {/* Background Image - matching the main website hero style */}
       <motion.div
-        className="relative z-10 text-center px-6 max-w-3xl"
-        style={{
-          transform: `translate(${mousePosition.x * -10}px, ${mousePosition.y * -10}px)`,
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        style={{ y: imageY, scale: imageScale }}
+        className="absolute inset-0 z-0"
       >
-        {/* Pre-heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-        >
-          <span className="inline-block text-[10px] md:text-[11px] tracking-[0.4em] text-accent-gold/80 uppercase mb-6">
-            Arriving Soon
-          </span>
-        </motion.div>
+        <Image
+          src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=2000&h=1400&fit=crop"
+          alt="House of Clarence"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+      </motion.div>
 
-        {/* Main title with staggered letters */}
-        <motion.h1
-          className="text-white font-display"
+      {/* Dark overlay - subtle like the main site */}
+      <div className="absolute inset-0 bg-black/30 z-[1]" />
+
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50">
+        <div className="flex items-center justify-center h-16 md:h-20 px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-white text-[14px] md:text-xl lg:text-2xl tracking-[0.25em] md:tracking-[0.35em] font-display uppercase font-light"
+          >
+            HOUSE OF CLARENCE
+          </motion.h1>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
+        <motion.div
+          className="text-center text-white max-w-4xl"
           initial="hidden"
           animate="visible"
           variants={{
             hidden: {},
             visible: {
               transition: {
-                staggerChildren: 0.08,
-                delayChildren: 0.5,
+                staggerChildren: 0.4,
+                delayChildren: 0.6,
               },
             },
           }}
         >
-          <div className="text-[clamp(2rem,8vw,5rem)] tracking-[0.25em] leading-none mb-2">
-            {"HOUSE OF".split("").map((char, i) => (
-              <motion.span
-                key={i}
-                className="inline-block"
-                variants={{
-                  hidden: { opacity: 0, y: 50, rotateX: -90 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    rotateX: 0,
-                    transition: {
-                      type: "spring",
-                      damping: 12,
-                      stiffness: 100,
-                    },
-                  },
-                }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-          </div>
-          <div className="text-[clamp(2.5rem,10vw,6.5rem)] tracking-[0.3em] leading-none">
-            {"CLARENCE".split("").map((char, i) => (
-              <motion.span
-                key={i}
-                className="inline-block"
-                variants={{
-                  hidden: { opacity: 0, y: 50, rotateX: -90 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    rotateX: 0,
-                    transition: {
-                      type: "spring",
-                      damping: 12,
-                      stiffness: 100,
-                    },
-                  },
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </div>
-        </motion.h1>
+          {/* Main Heading - matching the REFINED FINISHING style */}
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-display tracking-[0.2em] md:tracking-[0.3em] mb-6 font-light"
+          >
+            COMING SOON
+          </motion.h2>
 
-        <AnimatedDivider />
+          {/* Subheading - matching FOR DISCERNING SPACES style */}
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-[13px] md:text-[15px] tracking-[0.2em] mb-12 font-light uppercase"
+          >
+            REFINED FINISHING FOR DISCERNING SPACES
+          </motion.p>
 
-        {/* Tagline */}
-        <motion.p
-          className="text-warm-grey text-sm md:text-base tracking-[0.2em] uppercase mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.8 }}
-        >
-          Refined Finishing For Discerning Spaces
-        </motion.p>
+          {/* Description */}
+          <motion.p
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+            }}
+            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-white/80 text-sm md:text-base leading-relaxed max-w-xl mx-auto mb-12 font-light"
+          >
+            Curated collections of luxury bathroom, kitchen, and interior
+            finishing materials. Be the first to experience our exclusive
+            offerings.
+          </motion.p>
 
-        <motion.p
-          className="text-warm-grey/60 text-sm md:text-base leading-relaxed max-w-xl mx-auto mb-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-        >
-          Curated collections of luxury bathroom, kitchen, and interior
-          finishing materials. Be the first to experience our exclusive
-          offerings.
-        </motion.p>
-
-        {/* Email signup form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2.2 }}
-          className="max-w-md mx-auto"
-        >
-          <AnimatePresence mode="wait">
-            {!isSubmitted ? (
-              <motion.form
-                key="form"
-                onSubmit={handleSubmit}
-                className="relative"
-                exit={{ opacity: 0, y: -20 }}
-              >
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="relative flex-1 group">
+          {/* Email signup form - styled like the main site buttons */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="max-w-md mx-auto"
+          >
+            <AnimatePresence mode="wait">
+              {!isSubmitted ? (
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit}
+                  className="relative"
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
                       required
-                      className="w-full px-5 py-4 bg-white/5 border border-white/10 text-white placeholder:text-warm-grey/50 
-                                 text-sm tracking-wider focus:outline-none focus:border-accent-gold/50 focus:bg-white/[0.07]
+                      className="flex-1 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/50 
+                                 text-sm tracking-wider focus:outline-none focus:border-white/60 focus:bg-white/15
                                  transition-all duration-300"
                     />
-                    <div
-                      className="absolute inset-0 border border-accent-gold/0 group-focus-within:border-accent-gold/30 
-                                    pointer-events-none transition-all duration-300"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="px-8 py-4 bg-accent-gold text-primary-black text-[12px] tracking-[0.2em] uppercase font-medium
-                               hover:bg-accent-gold/90 hover:scale-[1.02] active:scale-[0.98]
-                               transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                               relative overflow-hidden group"
-                  >
-                    <span
-                      className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="px-8 py-4 border border-white text-white text-[13px] tracking-[0.15em] uppercase 
+                                 bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:scale-105 
+                                 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                 relative overflow-hidden"
                     >
-                      Notify Me
-                    </span>
-                    {isLoading && (
-                      <span className="absolute inset-0 flex items-center justify-center">
-                        <motion.div
-                          className="w-5 h-5 border-2 border-primary-black/30 border-t-primary-black rounded-full"
-                          animate={{ rotate: 360 }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                        />
+                      <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
+                        NOTIFY ME
                       </span>
-                    )}
-                  </button>
-                </div>
-                <p className="text-warm-grey/40 text-[11px] tracking-wider mt-4">
-                  We respect your privacy. Unsubscribe at any time.
-                </p>
-              </motion.form>
-            ) : (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center py-6"
-              >
+                      {isLoading && (
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <motion.div
+                            className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          />
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-white/50 text-[11px] tracking-wider mt-4">
+                    We respect your privacy. Unsubscribe at any time.
+                  </p>
+                </motion.form>
+              ) : (
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", damping: 10, stiffness: 100 }}
-                  className="w-16 h-16 mx-auto mb-6 border border-accent-gold/50 rounded-full 
-                             flex items-center justify-center"
+                  key="success"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center py-6"
                 >
-                  <motion.svg
-                    className="w-8 h-8 text-accent-gold"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", damping: 10, stiffness: 100 }}
+                    className="w-16 h-16 mx-auto mb-6 border border-white/50 rounded-full 
+                               flex items-center justify-center"
                   >
-                    <motion.path
-                      d="M5 13l4 4L19 7"
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
                       stroke="currentColor"
                       strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    />
-                  </motion.svg>
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </motion.div>
+                  <h3 className="text-white text-lg tracking-[0.15em] uppercase mb-2 font-display">
+                    Thank You
+                  </h3>
+                  <p className="text-white/70 text-sm">
+                    We&apos;ll notify you when House of Clarence launches.
+                  </p>
                 </motion.div>
-                <h3 className="text-white text-lg tracking-[0.15em] uppercase mb-2">
-                  Thank You
-                </h3>
-                <p className="text-warm-grey/60 text-sm">
-                  We&apos;ll notify you when House of Clarence launches.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
-      </motion.div>
 
-      {/* Bottom section with contact info */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 p-6 md:p-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.5 }}
-      >
-        <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto gap-6">
+        {/* Scroll indicator - matching main site */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2, duration: 0.5 }}
+        >
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+            <motion.div
+              className="w-1 h-3 bg-white/70 rounded-full"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            />
+          </div>
+        </motion.div>
+      </main>
+
+      {/* Footer */}
+      <footer className="fixed bottom-0 left-0 right-0 z-20 p-6 md:p-8">
+        <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto gap-4">
           {/* Contact */}
-          <div className="flex items-center gap-8 text-warm-grey/50 text-[11px] tracking-[0.15em] uppercase">
+          <div className="flex items-center gap-6 text-white/60 text-[11px] tracking-[0.12em] uppercase">
             <a
-              href="mailto:hello@houseofclarence.com"
-              className="hover:text-accent-gold transition-colors duration-300"
+              href="mailto:enquiries@houseofclarence.com"
+              className="hover:text-white transition-colors duration-300"
             >
-              hello@houseofclarence.com
+              enquiries@houseofclarence.com
             </a>
-            <span className="hidden md:inline text-warm-grey/20">|</span>
+            <span className="hidden md:inline text-white/30">|</span>
             <a
               href="tel:+442033704057"
-              className="hidden md:inline hover:text-accent-gold transition-colors duration-300"
+              className="hidden md:inline hover:text-white transition-colors duration-300"
             >
               020 3370 4057
             </a>
           </div>
 
-          {/* Time - only show after hydration */}
-          {currentTime && (
-            <div className="text-warm-grey/30 text-[11px] tracking-[0.3em] font-mono">
-              LONDON{" "}
-              {currentTime.toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })}
-            </div>
-          )}
-
           {/* Social links */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5">
             <a
               href="#"
-              className="text-warm-grey/40 hover:text-accent-gold transition-colors duration-300"
+              className="text-white/50 hover:text-white transition-colors duration-300"
               aria-label="Instagram"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -407,7 +259,7 @@ export default function ComingSoonPage() {
             </a>
             <a
               href="#"
-              className="text-warm-grey/40 hover:text-accent-gold transition-colors duration-300"
+              className="text-white/50 hover:text-white transition-colors duration-300"
               aria-label="Pinterest"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -416,7 +268,7 @@ export default function ComingSoonPage() {
             </a>
             <a
               href="#"
-              className="text-warm-grey/40 hover:text-accent-gold transition-colors duration-300"
+              className="text-white/50 hover:text-white transition-colors duration-300"
               aria-label="LinkedIn"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -425,14 +277,7 @@ export default function ComingSoonPage() {
             </a>
           </div>
         </div>
-      </motion.div>
-
-      {/* Decorative corner elements */}
-      <div className="absolute top-8 left-8 w-16 h-16 border-l border-t border-white/10" />
-      <div className="absolute top-8 right-8 w-16 h-16 border-r border-t border-white/10" />
-      <div className="absolute bottom-24 left-8 w-16 h-16 border-l border-b border-white/10 hidden md:block" />
-      <div className="absolute bottom-24 right-8 w-16 h-16 border-r border-b border-white/10 hidden md:block" />
+      </footer>
     </div>
   );
 }
-
