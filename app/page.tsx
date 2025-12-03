@@ -46,7 +46,7 @@ export default function ComingSoonPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="text-white text-[14px] sm:text-[15px] md:text-lg lg:text-xl tracking-[0.25em] sm:tracking-[0.35em] md:tracking-[0.4em] font-light"
+            className="text-white text-[15px] sm:text-[17px] md:text-xl lg:text-2xl tracking-[0.25em] sm:tracking-[0.35em] md:tracking-[0.4em] font-light"
           >
             HOUSE OF CLARENCE
           </motion.h1>
