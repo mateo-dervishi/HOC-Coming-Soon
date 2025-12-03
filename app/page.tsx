@@ -109,7 +109,7 @@ export default function ComingSoonPage() {
           </motion.p>
 
           {/* Email signup form */}
-          <div className="w-full max-w-sm sm:max-w-md mx-auto px-1">
+          <div className="w-full max-w-md mx-auto px-1">
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <form
@@ -117,9 +117,9 @@ export default function ComingSoonPage() {
                   onSubmit={handleSubmit}
                   className="relative"
                 >
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-row gap-0">
                     <motion.div 
-                      className="relative w-full"
+                      className="relative flex-1"
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ 
@@ -140,13 +140,13 @@ export default function ComingSoonPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
                         required
-                        className="relative w-full px-5 sm:px-6 py-4 bg-transparent border border-transparent text-white placeholder:text-white/50 
-                                   text-[14px] sm:text-sm tracking-wider focus:outline-none
+                        className="relative w-full px-4 sm:px-6 py-4 bg-transparent border border-transparent text-white placeholder:text-white/50 
+                                   text-[13px] sm:text-sm tracking-wider focus:outline-none
                                    transition-all duration-300"
                       />
                     </motion.div>
                     <motion.div 
-                      className="relative w-full"
+                      className="relative flex-shrink-0"
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ 
@@ -164,10 +164,10 @@ export default function ComingSoonPage() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="relative w-full px-8 py-4 border border-transparent text-white text-[12px] sm:text-[13px] tracking-[0.15em] uppercase 
+                        className="relative px-5 sm:px-8 py-4 border border-transparent text-white text-[11px] sm:text-[13px] tracking-[0.15em] uppercase 
                                    bg-transparent hover:bg-white/10 active:bg-white/20
                                    transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                                   overflow-hidden"
+                                   overflow-hidden whitespace-nowrap"
                       >
                         <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
                           NOTIFY ME
@@ -277,7 +277,9 @@ export default function ComingSoonPage() {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/company/houseofclarence/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white active:text-white transition-colors duration-300"
               aria-label="LinkedIn"
             >
