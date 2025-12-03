@@ -137,37 +137,43 @@ export default function ComingSoonPage() {
                   exit={{ opacity: 0, y: -20 }}
                 >
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                      className="flex-1 px-6 py-4 bg-black/20 border border-white/30 text-white placeholder:text-white/50 
-                                 text-sm tracking-wider focus:outline-none focus:border-white/60 focus:bg-black/30
-                                 transition-all duration-300"
-                    />
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="px-8 py-4 border border-white text-white text-[13px] tracking-[0.15em] uppercase 
-                                 bg-black/20 hover:bg-black/30 hover:scale-105 
-                                 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                                 relative overflow-hidden"
-                    >
-                      <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
-                        NOTIFY ME
-                      </span>
-                      {isLoading && (
-                        <span className="absolute inset-0 flex items-center justify-center">
-                          <motion.div
-                            className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          />
+                    <div className="relative flex-1">
+                      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/30" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Enter your email"
+                        required
+                        className="relative w-full px-6 py-4 bg-transparent border border-transparent text-white placeholder:text-white/50 
+                                   text-sm tracking-wider focus:outline-none
+                                   transition-all duration-300"
+                      />
+                    </div>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white" />
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="relative px-8 py-4 border border-transparent text-white text-[13px] tracking-[0.15em] uppercase 
+                                   bg-transparent hover:bg-white/10 hover:scale-105 
+                                   transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                   overflow-hidden"
+                      >
+                        <span className={`transition-opacity ${isLoading ? "opacity-0" : "opacity-100"}`}>
+                          NOTIFY ME
                         </span>
-                      )}
-                    </button>
+                        {isLoading && (
+                          <span className="absolute inset-0 flex items-center justify-center">
+                            <motion.div
+                              className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            />
+                          </span>
+                        )}
+                      </button>
+                    </div>
                   </div>
                   <p className="text-white/50 text-[11px] tracking-wider mt-4">
                     We respect your privacy. Unsubscribe at any time.
