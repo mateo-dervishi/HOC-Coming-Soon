@@ -39,7 +39,7 @@ export default function ComingSoonPage() {
         className="absolute inset-0 z-0"
       >
         <Image
-          src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=2000&h=1400&fit=crop"
+          src="/images/sloane-12.webp"
           alt="House of Clarence"
           fill
           className="object-cover"
