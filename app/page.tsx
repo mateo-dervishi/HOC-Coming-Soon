@@ -143,15 +143,15 @@ export default function ComingSoonPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
                       required
-                      className="flex-1 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/50 
-                                 text-sm tracking-wider focus:outline-none focus:border-white/60 focus:bg-white/15
+                      className="flex-1 px-6 py-4 bg-black/20 border border-white/30 text-white placeholder:text-white/50 
+                                 text-sm tracking-wider focus:outline-none focus:border-white/60 focus:bg-black/30
                                  transition-all duration-300"
                     />
                     <button
                       type="submit"
                       disabled={isLoading}
                       className="px-8 py-4 border border-white text-white text-[13px] tracking-[0.15em] uppercase 
-                                 bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:scale-105 
+                                 bg-black/20 hover:bg-black/30 hover:scale-105 
                                  transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
                                  relative overflow-hidden"
                     >
