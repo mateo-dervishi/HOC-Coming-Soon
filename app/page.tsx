@@ -12,8 +12,25 @@ export default function ComingSoonPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitted(true);
+    
+    try {
+      await fetch(
+        "https://default19c5fbd0b8174474a78b2d48ff2c5e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d8de7ea855f04510884a51085c365703/triggers/manual/paths/invoke?api-version=1",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+          mode: "no-cors",
+        }
+      );
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting email:", error);
+      setIsSubmitted(true); // Still show success to user
+    }
+    
     setIsLoading(false);
   };
 
