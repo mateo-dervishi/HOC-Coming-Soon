@@ -14,18 +14,20 @@ export default function ComingSoonPage() {
     setIsLoading(true);
     
     try {
-      await fetch(
-        "https://default19c5fbd0b8174474a78b2d48ff2c5e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d8de7ea855f04510884a51085c365703/triggers/manual/paths/invoke?api-version=1",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-          mode: "no-cors",
-        }
-      );
-      setIsSubmitted(true);
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        console.error("Subscription failed");
+        setIsSubmitted(true); // Still show success to user
+      }
     } catch (error) {
       console.error("Error submitting email:", error);
       setIsSubmitted(true); // Still show success to user
