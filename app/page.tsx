@@ -250,13 +250,13 @@ export default function ComingSoonPage() {
             transition={{ delay: 2.5, duration: 0.5 }}
           >
             <a
-              href="mailto:enquiries@houseofclarence.com"
+              href="mailto:enquiries@houseofclarence.uk"
               className="hover:text-white transition-colors duration-300 hidden sm:inline"
             >
-              enquiries@houseofclarence.com
+              enquiries@houseofclarence.uk
             </a>
             <a
-              href="mailto:enquiries@houseofclarence.com"
+              href="mailto:enquiries@houseofclarence.uk"
               className="hover:text-white transition-colors duration-300 sm:hidden"
             >
               Email
